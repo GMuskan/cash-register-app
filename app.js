@@ -17,40 +17,52 @@ nextButton.addEventListener("click", function(){
     hideMessage();
     if(billAmount.value===""){
         showMessage('Bill amount cannot be null');
-    }else if(Number(billAmount.value)===0){
+    }else if(Number(billAmount.value)<=0){
         showMessage('Bill amount should be greater than 0');
-    }
-    else{
+    }else if(Number(billAmount.value) > 0){
         labelCashGiven.style.display = "block";
         cashGiven.style.display = "block";
         checkButton.style.display = "block";
-        table.style.display = "block";
+        table.style.display = "none";
     }
+    else if(typeof(billAmount.value)===typeof('billAmount')){
+        showMessage('Bill Amount should not be a string');
+    }
+    
 });
 
 checkButton.addEventListener("click", function validateBillAndCashAmount(){
     hideMessage();
-    if(Number(billAmount.value) > 0){
         if(cashGiven.value === ""){
             showMessage('Cash Given cannot be null');
-        }
-        else{
-            if(Number(cashGiven.value) >= Number(billAmount.value)){
-                var moneyToBeReturned = Number(cashGiven.value) - Number(billAmount.value);
-                calculateChange(moneyToBeReturned);
-            }else{
-                showMessage('Cash given should be a number which is  greater than or equal to Bill amount');
-            }
+        }else if(Number(cashGiven.value)<=0){
+            showMessage('Cash given should be greater than or equal to bill amount');
+        }else if(Number(cashGiven.value) >= Number(billAmount.value)){
+            var moneyToBeReturned = Number(cashGiven.value) - Number(billAmount.value);
+            console.log(moneyToBeReturned);
+            calculateChange(moneyToBeReturned);
+            table.style.display="block";
+        }else if(typeof(cashGiven.value)===typeof('cashGiven')){
+            showMessage('Cash Given should not be a string');
         }   
-    }else{
-        showMessage('Bill Amount should be a number which is greater than 0');
-    }
 }); 
 
 billAmount.addEventListener("click", function hideElements(){
+    hideMessage();
     labelCashGiven.style.display = "none";
     cashGiven.style.display = "none";
     checkButton.style.display = "none";
+    table.style.display = "none";
+    cashGiven.value = "";
+    billAmount.value="";
+    for( var i=0; i < availableNotes.length; i++ ){
+        numberOfNotes[i].innerText = "";
+    }
+
+});
+
+cashGiven.addEventListener("click", function hideBelowElements(){
+    hideMessage();
     table.style.display = "none";
     cashGiven.value = "";
     for( var i=0; i < availableNotes.length; i++ ){
