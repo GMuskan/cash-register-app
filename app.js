@@ -35,14 +35,15 @@ checkButton.addEventListener("click", function validateBillAndCashAmount(){
     hideMessage();
         if(cashGiven.value === ""){
             showMessage('Cash Given cannot be null');
-        }else if(Number(cashGiven.value)<=0){
+        }else if(Number(cashGiven.value) < Number(billAmount.value)){
             showMessage('Cash given should be greater than or equal to bill amount');
         }else if(Number(cashGiven.value) >= Number(billAmount.value)){
             var moneyToBeReturned = Number(cashGiven.value) - Number(billAmount.value);
             console.log(moneyToBeReturned);
             calculateChange(moneyToBeReturned);
             table.style.display="block";
-        }else if(typeof(cashGiven.value)===typeof('cashGiven')){
+        }
+        else if(typeof(cashGiven.value)===typeof('cashGiven')){
             showMessage('Cash Given should not be a string');
         }   
 }); 
